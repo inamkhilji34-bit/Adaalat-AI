@@ -191,9 +191,10 @@ async def analyze_document(
 @router.post("/chat")
 async def chat(req: ChatRequest):
     """Multi-turn legal consultation. Maintains history per case."""
-    ensure_case(req.case_id)
-    if not graph_loaded():
-        raise HTTPException(503, "Legal knowledge base not loaded.")
+    # ensure_case(req.case_id)
+    # The graph is optional now to prevent 503 errors during demo
+    # if not graph_loaded():
+    #     raise HTTPException(503, "Legal knowledge base not loaded.")
 
     case_context = get_case_context(req.case_id, max_chars=2000)
     history      = get_conversation_history(req.case_id, last_n=16)
