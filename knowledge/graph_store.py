@@ -2,6 +2,7 @@
 Singleton wrapper for the loaded NetworkX graph.
 Loaded once on first access. Subsequent calls return the cached instance.
 """
+from __future__ import annotations
 import networkx as nx
 from loguru import logger
 from ingestion.graph_builder import load_graph, get_neighbors as _get_neighbors

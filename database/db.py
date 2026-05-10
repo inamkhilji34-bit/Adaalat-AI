@@ -3,6 +3,7 @@ SQLite database layer using sqlite-utils.
 All tables, all queries, all CRUD in one file.
 Uses sqlite-utils for clean, Pythonic database access without an ORM.
 """
+from __future__ import annotations
 import uuid
 import sqlite_utils
 from datetime import datetime

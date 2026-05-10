@@ -12,6 +12,7 @@ run_agent() call is stateless — no in-memory conversation state.
 
 All OpenAI calls use tenacity retry for transient errors and rate limits.
 """
+from __future__ import annotations
 import json
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential

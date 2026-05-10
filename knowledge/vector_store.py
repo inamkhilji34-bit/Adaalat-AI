@@ -8,6 +8,7 @@ Two collections:
 Embedding calls use the OpenAI client directly (not ChromaDB's built-in
 embedding function) so we have full control over batching and error handling.
 """
+from __future__ import annotations
 import chromadb
 from openai import OpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential
