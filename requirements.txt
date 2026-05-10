@@ -10,3 +10,4 @@ pydantic
 sqlite-utils
 tenacity
 loguru
+pysqlite3-binary

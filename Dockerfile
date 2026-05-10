@@ -4,7 +4,6 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8080
 
 # Set working directory
 WORKDIR /app
@@ -28,5 +27,5 @@ RUN mkdir -p data uploads
 EXPOSE 8080
 
 # Command to run the application
-# We use uvicorn directly to handle the PORT env var
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
+# Use a shell to ensure $PORT is correctly expanded
+CMD sh -c "uvicorn main:app --host 0.0.0.0 --port $PORT"
