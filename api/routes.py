@@ -158,8 +158,8 @@ async def analyze_document(
     """Run the agent analysis on a specific uploaded document."""
     if not case_exists(case_id):
         raise HTTPException(404, "Case not found")
-    if not graph_loaded():
-        raise HTTPException(503, "Legal knowledge base not loaded. Run build_index.py first.")
+    # if not graph_loaded():
+    #     raise HTTPException(503, "Legal knowledge base not loaded. Run build_index.py first.")
 
     docs = get_documents(case_id)
     doc = next((d for d in docs if d["id"] == doc_id), None)
@@ -167,8 +167,11 @@ async def analyze_document(
         raise HTTPException(404, "Document not found in this case")
 
     doc_text = doc["extracted_text"]
-    graph = get_graph()
-    legal_context = retrieve(doc_text[:1500], graph)
+    try:
+        graph = get_graph()
+        legal_context = retrieve(doc_text[:1500], graph)
+    except Exception:
+        legal_context = "Legal knowledge base not loaded. Using document content for analysis."
 
     analysis = run_agent(
         user_message=(
