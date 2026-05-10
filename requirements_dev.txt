@@ -1,0 +1,2 @@
+# Offline tools — run during index building, not at runtime
+marker-pdf

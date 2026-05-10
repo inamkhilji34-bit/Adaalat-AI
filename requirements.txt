@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-multipart
+openai
+chromadb
+networkx
+pdfplumber
+python-dotenv
+pydantic
+sqlite-utils
+tenacity
+loguru

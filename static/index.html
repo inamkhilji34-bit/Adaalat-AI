@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaalat AI - Pakistan's Premium AI Legal Assistant</title>
+    <meta name="description" content="Expert legal analysis and document drafting for Pakistani law. Powered by AI, grounded in the Constitution, PPC, CrPC, and CPC.">
+    <meta name="keywords" content="Legal AI, Pakistan Law, Adaalat AI, Legal Assistant, Automated Drafting, Case Analysis">
+    <!-- Modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- LEFT SIDEBAR: Cases -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <i class="fa-solid fa-scale-balanced brand-icon"></i>
+                <h1>Adaalat AI</h1>
+            </div>
+            
+            <button id="new-case-btn" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> New Case
+            </button>
+
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h2>Recent Cases</h2>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="case-search" placeholder="Search...">
+                    </div>
+                </div>
+                <ul id="cases-list" class="cases-list">
+                    <!-- Cases will be populated here -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- CENTER PANEL: Chat Interface -->
+        <main class="chat-container">
+            <header class="chat-header glass-panel">
+                <div class="active-case-info">
+                    <h2 id="active-case-title">Select or create a case</h2>
+                    <span id="active-case-id" class="badge hidden"></span>
+                </div>
+            </header>
+
+            <div id="chat-messages" class="chat-messages">
+                <div class="welcome-screen">
+                    <div class="welcome-header">
+                        <div class="logo-orb">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <h2>Adaalat AI</h2>
+                        <p class="subtitle">Pakistan's Premium Legal Intelligence</p>
+                    </div>
+                    
+                    <div class="welcome-content">
+                        <p>Upload your case documents (FIRs, Court Orders, Notices) or ask a legal question to begin. Our system analyzes Pakistani statutes including the PPC, CrPC, and CPC to provide expert guidance.</p>
+                        
+                        <div class="quick-actions">
+                            <div class="action-card" id="qa-new-case">
+                                <i class="fa-solid fa-folder-plus"></i>
+                                <span>Start New Case</span>
+                            </div>
+                            <div class="action-card" id="qa-upload">
+                                <i class="fa-solid fa-file-arrow-up"></i>
+                                <span>Upload Document</span>
+                            </div>
+                            <div class="action-card" id="qa-draft">
+                                <i class="fa-solid fa-pen-nib"></i>
+                                <span>Draft Document</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chat bubbles will be injected here -->
+            </div>
+
+            <div class="chat-input-wrapper glass-panel">
+                <form id="chat-form" class="chat-form">
+                    <textarea id="chat-input" placeholder="Type your legal query here..." rows="1" disabled></textarea>
+                    <button type="submit" id="send-btn" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <!-- RIGHT PANEL: Tools (Upload & Draft) -->
+        <aside class="tools-panel glass-panel">
+            <div class="tools-section">
+                <h2><i class="fa-solid fa-file-arrow-up"></i> Case Documents</h2>
+                <div id="drop-zone" class="drop-zone disabled">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Drag & Drop PDF here<br>or <span class="highlight">browse</span></p>
+                    <input type="file" id="file-input" accept="application/pdf" hidden>
+                </div>
+                <div id="upload-status" class="upload-status hidden">
+                    <div class="spinner"></div> Uploading and analyzing...
+                </div>
+                <ul id="documents-list" class="documents-list">
+                    <!-- Uploaded docs will appear here -->
+                </ul>
+            </div>
+
+            <div class="tools-section">
+                <h2><i class="fa-solid fa-pen-nib"></i> Draft Document</h2>
+                <div class="draft-form">
+                    <select id="draft-type" disabled>
+                        <option value="bail_application">Bail Application</option>
+                        <option value="writ_petition">Writ Petition</option>
+                        <option value="legal_notice">Legal Notice</option>
+                        <option value="civil_suit">Civil Suit</option>
+                        <option value="appeal">Appeal</option>
+                        <option value="habeas_corpus">Habeas Corpus</option>
+                        <option value="revision_petition">Revision Petition</option>
+                    </select>
+                    <textarea id="draft-instructions" placeholder="Additional instructions for the draft (optional)..." rows="2" disabled></textarea>
+                    <button id="draft-btn" class="btn-secondary" disabled>Generate Draft</button>
+                </div>
+            </div>
+            
+            <div class="tools-section drafts-section">
+                <h2>Generated Drafts</h2>
+                <ul id="drafts-list" class="drafts-list">
+                    <!-- Drafts will appear here -->
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal for Draft Viewing -->
+    <div id="draft-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="modal-title">Document Draft</h2>
+                <button id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <pre id="modal-text"></pre>
+            </div>
+            <div class="modal-footer">
+                <button id="copy-draft-btn" class="btn-primary">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for New Case -->
+    <div id="new-case-modal" class="modal hidden">
+        <div class="modal-content glass-panel small-modal">
+            <div class="modal-header">
+                <h2>Create New Case</h2>
+                <button id="close-case-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Case Title</label>
+                    <input type="text" id="case-title-input" placeholder="e.g. Property Dispute - Gulberg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-new-case-btn" class="btn-primary">Create Case</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marked.js for markdown rendering in chat -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
